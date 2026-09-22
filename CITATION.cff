@@ -1,0 +1,32 @@
+cff-version: 1.2.0
+message: "If you use this dashboard or processed datasets, please cite it alongside the original GRooT publication."
+authors:
+  - family-names: "Barker"
+    given-names: "Richard"
+    orcid: "https://orcid.org/0000-0000-0000-0000"
+title: "GRooT Database Exploration Dashboard & Interactive GitHub Pages Tool"
+version: 1.0.0
+date-released: 2026-09-22
+url: "https://dr-richard-barker.github.io/groot-dashboard/"
+repository-code: "https://github.com/dr-richard-barker/groot-dashboard"
+license: "MIT"
+keywords:
+  - "root traits"
+  - "functional ecology"
+  - "GRooT database"
+  - "botany"
+  - "plant biology"
+  - "CoSE theme"
+preferred-citation:
+  type: article
+  authors:
+    - family-names: "Guerrero-Ramírez"
+      given-names: "Nathaly R."
+    - family-names: "Mommer"
+      given-names: "Liesje"
+  title: "Global root traits (GRooT) database"
+  journal: "Global Ecology and Biogeography"
+  volume: 30
+  issue: 1
+  pages: "25-37"
+  year: 2021

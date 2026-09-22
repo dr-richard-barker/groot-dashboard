@@ -1,0 +1,20 @@
+{
+  "title": "GRooT Database Exploration Dashboard & Interactive GitHub Pages Tool",
+  "description": "Interactive web application and standardized data processing pipeline for exploring global root traits from the GRooT Database (Guerrero-Ramírez et al., 2021). Features distribution histograms, species comparison, global site map, and CSV/JSON query exporter with CoSE theme styling.",
+  "upload_type": "software",
+  "creators": [
+    {
+      "name": "Barker, Richard",
+      "affiliation": "CoSE Research Lab / AstroBotany"
+    }
+  ],
+  "access_right": "open",
+  "license": "MIT",
+  "keywords": [
+    "GRooT",
+    "Root Traits",
+    "Functional Ecology",
+    "AstroBotany",
+    "CoSE Theme"
+  ]
+}

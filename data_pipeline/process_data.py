@@ -11,6 +11,47 @@ os.makedirs(PUBLIC_DATA_DIR, exist_ok=True)
 FULL_CSV = os.path.join(RAW_DIR, 'GRooTFullVersion.csv')
 AGG_CSV = os.path.join(RAW_DIR, 'GRooTAggregateSpeciesVersion.csv')
 
+# Standard ecological units for GRooT continuous traits
+TRAIT_UNITS = {
+    'Specific_root_length': 'm g⁻¹',
+    'Specific_root_area': 'm² kg⁻¹',
+    'Mean_Root_diameter': 'mm',
+    'Root_tissue_density': 'g cm⁻³',
+    'Root_dry_matter_content': 'mg g⁻¹',
+    'Root_cortex_thickness': 'mm',
+    'Root_stele_diameter': 'mm',
+    'Root_stele_fraction': '% (ratio)',
+    'Root_vessel_diameter': 'µm',
+    'Root_branching_density': 'tips cm⁻¹',
+    'Root_branching_ratio': 'ratio',
+    'Root_C_N_ratio': 'ratio',
+    'Root_N_concentration': 'mg g⁻¹',
+    'Root_C_concentration': 'mg g⁻¹',
+    'Root_P_concentration': 'mg g⁻¹',
+    'Root_K_concentration': 'mg g⁻¹',
+    'Root_Ca_concentration': 'mg g⁻¹',
+    'Root_Mg_concentration': 'mg g⁻¹',
+    'Root_Mn_concentration': 'mg g⁻¹',
+    'Root_N_P_ratio': 'ratio',
+    'Root_lifespan_mean': 'days',
+    'Root_lifespan_median': 'days',
+    'Root_litter_mass_loss_rate': 'g g⁻¹ yr⁻¹',
+    'Root_production': 'g m⁻² yr⁻¹',
+    'Root_turnover_rate': 'yr⁻¹',
+    'Coarse_root_fine_root_mass_ratio': 'ratio',
+    'Fine_root_mass_leaf_mass_ratio': 'ratio',
+    'Root_length_density_volume': 'cm cm⁻³',
+    'Root_mass_density': 'g cm⁻³',
+    'Rooting_depth': 'm',
+    'Root_xylem_vessel_number': 'vessels',
+    'Root_mass_fraction': 'g g⁻¹',
+    'Root_lignin_concentration': 'mg g⁻¹',
+    'Root_total_structural_carbohydrate_concentration': 'mg g⁻¹',
+    'Lateral_spread': 'm',
+    'Root_mycorrhizal colonization': '%',
+    'Net_nitrogen_uptake_rate': 'µmol g⁻¹ h⁻¹'
+}
+
 def safe_float(val):
     try:
         if val is None or val == '' or val.lower() == 'na':
@@ -21,10 +62,10 @@ def safe_float(val):
         return None
 
 def process_data():
-    print("Processing GRooT dataset...")
+    print("Processing GRooT dataset with ABAI QC standard units...")
     
     # 1. Load Species Aggregated Data
-    species_map = {} # key: (genus, species), value: dict
+    species_map = {}
     trait_names = set()
     
     with open(AGG_CSV, 'r', encoding='utf-8', errors='ignore') as f:
@@ -58,6 +99,7 @@ def process_data():
                     'median': round(med_val, 4) if med_val is not None else round(mean_val, 4),
                     'q1': round(q1_val, 4) if q1_val is not None else round(mean_val, 4),
                     'q3': round(q3_val, 4) if q3_val is not None else round(mean_val, 4),
+                    'unit': TRAIT_UNITS.get(trait, ''),
                     'n': n_entries
                 }
     
@@ -66,7 +108,6 @@ def process_data():
     # 2. Process Full Dataset for Metadata, Map Geo Points, and Trait Distributions
     trait_values = {t: [] for t in trait_names}
     geo_points = []
-    genus_metadata = {}
     growth_forms = set()
     mycorrhizal_types = set()
     biomes = set()
@@ -111,7 +152,7 @@ def process_data():
                     'biome': biome
                 })
 
-    # Cluster Geo Points slightly to reduce point cloud size for map
+    # Cluster Geo Points
     geo_clusters = {}
     for pt in geo_points:
         key = (round(pt['lat'], 1), round(pt['lon'], 1))
@@ -159,9 +200,9 @@ def process_data():
         max_v = float(np.max(arr_clean))
         mean_v = float(np.mean(arr_clean))
         std_v = float(np.std(arr_clean))
+        unit = TRAIT_UNITS.get(t, '')
         
-        # Histograms (log space if skewed, or 20 linear bins)
-        # Using 5th to 95th percentile bounds for histogram visualization to exclude extreme outliers
+        # Binned histograms (1st - 99th percentile)
         p5, p95 = np.percentile(arr_clean, [1, 99])
         filtered_vals = arr_clean[(arr_clean >= p5) & (arr_clean <= p95)]
         if len(filtered_vals) > 0:
@@ -170,7 +211,7 @@ def process_data():
                 {
                     'binStart': round(float(bin_edges[i]), 4),
                     'binEnd': round(float(bin_edges[i+1]), 4),
-                    'label': f"{round(float(bin_edges[i]), 2)} - {round(float(bin_edges[i+1]), 2)}",
+                    'label': f"{round(float(bin_edges[i]), 2)} - {round(float(bin_edges[i+1]), 2)} {unit}".strip(),
                     'count': int(counts[i])
                 }
                 for i in range(len(counts))
@@ -183,6 +224,7 @@ def process_data():
         traits_summary.append({
             'traitName': t,
             'readableName': t.replace('_', ' '),
+            'unit': unit,
             'count': len(arr_clean),
             'min': round(min_v, 4),
             'max': round(max_v, 4),
@@ -220,7 +262,7 @@ def process_data():
     with open(os.path.join(PUBLIC_DATA_DIR, 'metadata.json'), 'w') as f:
         json.dump(metadata, f, indent=2)
 
-    print("Data processing complete! Output saved to public/data.")
+    print("Data processing complete with units! Output saved to public/data.")
 
 if __name__ == '__main__':
     process_data()

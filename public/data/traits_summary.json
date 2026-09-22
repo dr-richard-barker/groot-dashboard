@@ -2,6 +2,7 @@
   {
     "traitName": "Root_mass_fraction",
     "readableName": "Root mass fraction",
+    "unit": "g g\u207b\u00b9",
     "count": 15524,
     "min": 0.0,
     "max": 0.996,
@@ -14,6 +15,7 @@
   {
     "traitName": "Specific_root_length",
     "readableName": "Specific root length",
+    "unit": "m g\u207b\u00b9",
     "count": 12364,
     "min": 0.0313,
     "max": 3373.3872,
@@ -26,6 +28,7 @@
   {
     "traitName": "Mean_Root_diameter",
     "readableName": "Mean Root diameter",
+    "unit": "mm",
     "count": 10719,
     "min": 0.03,
     "max": 12.73,
@@ -38,6 +41,7 @@
   {
     "traitName": "Root_tissue_density",
     "readableName": "Root tissue density",
+    "unit": "g cm\u207b\u00b3",
     "count": 10521,
     "min": 0.0018,
     "max": 2.1658,
@@ -50,6 +54,7 @@
   {
     "traitName": "Root_N_concentration",
     "readableName": "Root N concentration",
+    "unit": "mg g\u207b\u00b9",
     "count": 10212,
     "min": 0.1111,
     "max": 62.9667,
@@ -62,6 +67,7 @@
   {
     "traitName": "Root_mycorrhizal colonization",
     "readableName": "Root mycorrhizal colonization",
+    "unit": "%",
     "count": 6819,
     "min": 0.0,
     "max": 100.0,
@@ -74,6 +80,7 @@
   {
     "traitName": "Root_C_concentration",
     "readableName": "Root C concentration",
+    "unit": "mg g\u207b\u00b9",
     "count": 6124,
     "min": 0.3964,
     "max": 828.1698,
@@ -86,6 +93,7 @@
   {
     "traitName": "Root_C_N_ratio",
     "readableName": "Root C N ratio",
+    "unit": "ratio",
     "count": 4493,
     "min": 6.2,
     "max": 313.0,
@@ -98,6 +106,7 @@
   {
     "traitName": "Root_dry_matter_content",
     "readableName": "Root dry matter content",
+    "unit": "mg g\u207b\u00b9",
     "count": 4097,
     "min": 0.0193,
     "max": 0.9488,
@@ -110,6 +119,7 @@
   {
     "traitName": "Root_P_concentration",
     "readableName": "Root P concentration",
+    "unit": "mg g\u207b\u00b9",
     "count": 2742,
     "min": 0.0482,
     "max": 24.73,
@@ -122,6 +132,7 @@
   {
     "traitName": "Specific_root_area",
     "readableName": "Specific root area",
+    "unit": "m\u00b2 kg\u207b\u00b9",
     "count": 2693,
     "min": 0.022,
     "max": 15389.0,
@@ -134,6 +145,7 @@
   {
     "traitName": "Rooting_depth",
     "readableName": "Rooting depth",
+    "unit": "m",
     "count": 2669,
     "min": 0.007,
     "max": 141.0,
@@ -146,6 +158,7 @@
   {
     "traitName": "Specific_root_respiration",
     "readableName": "Specific root respiration",
+    "unit": "",
     "count": 2620,
     "min": 0.0,
     "max": 137.4477,
@@ -158,6 +171,7 @@
   {
     "traitName": "Root_branching_density",
     "readableName": "Root branching density",
+    "unit": "tips cm\u207b\u00b9",
     "count": 2130,
     "min": 0.0448,
     "max": 16.3188,
@@ -170,6 +184,7 @@
   {
     "traitName": "Fine_root_mass_leaf_mass_ratio",
     "readableName": "Fine root mass leaf mass ratio",
+    "unit": "ratio",
     "count": 1818,
     "min": 0.0011,
     "max": 126.6,
@@ -182,6 +197,7 @@
   {
     "traitName": "Root_mass_density",
     "readableName": "Root mass density",
+    "unit": "g cm\u207b\u00b3",
     "count": 1815,
     "min": 0.0,
     "max": 3.616,
@@ -194,6 +210,7 @@
   {
     "traitName": "Root_length_density_volume",
     "readableName": "Root length density volume",
+    "unit": "cm cm\u207b\u00b3",
     "count": 1794,
     "min": 0.0,
     "max": 94.8023,
@@ -206,6 +223,7 @@
   {
     "traitName": "Coarse_root_fine_root_mass_ratio",
     "readableName": "Coarse root fine root mass ratio",
+    "unit": "ratio",
     "count": 1719,
     "min": 0.0499,
     "max": 289.75,
@@ -218,6 +236,7 @@
   {
     "traitName": "Root_Ca_concentration",
     "readableName": "Root Ca concentration",
+    "unit": "mg g\u207b\u00b9",
     "count": 1521,
     "min": 0.007,
     "max": 333.9074,
@@ -230,6 +249,7 @@
   {
     "traitName": "Root_K_concentration",
     "readableName": "Root K concentration",
+    "unit": "mg g\u207b\u00b9",
     "count": 1460,
     "min": 0.18,
     "max": 35.8289,
@@ -242,6 +262,7 @@
   {
     "traitName": "Lateral_spread",
     "readableName": "Lateral spread",
+    "unit": "m",
     "count": 1422,
     "min": 0.5,
     "max": 50.0,
@@ -254,6 +275,7 @@
   {
     "traitName": "Root_Mg_concentration",
     "readableName": "Root Mg concentration",
+    "unit": "mg g\u207b\u00b9",
     "count": 1408,
     "min": 0.0176,
     "max": 32.5229,
@@ -266,6 +288,7 @@
   {
     "traitName": "Root_stele_fraction",
     "readableName": "Root stele fraction",
+    "unit": "% (ratio)",
     "count": 1080,
     "min": 0.0008,
     "max": 0.9843,
@@ -278,6 +301,7 @@
   {
     "traitName": "Root_stele_diameter",
     "readableName": "Root stele diameter",
+    "unit": "mm",
     "count": 982,
     "min": 17.8715,
     "max": 3206.5039,
@@ -290,6 +314,7 @@
   {
     "traitName": "Root_lignin_concentration",
     "readableName": "Root lignin concentration",
+    "unit": "mg g\u207b\u00b9",
     "count": 837,
     "min": 4.4925,
     "max": 478.5,
@@ -302,6 +327,7 @@
   {
     "traitName": "Root_production",
     "readableName": "Root production",
+    "unit": "g m\u207b\u00b2 yr\u207b\u00b9",
     "count": 734,
     "min": 2.0,
     "max": 4302.3254,
@@ -314,6 +340,7 @@
   {
     "traitName": "Root_litter_mass_loss_rate",
     "readableName": "Root litter mass loss rate",
+    "unit": "g g\u207b\u00b9 yr\u207b\u00b9",
     "count": 621,
     "min": 0.001,
     "max": 14.02,
@@ -326,6 +353,7 @@
   {
     "traitName": "Root_turnover_rate",
     "readableName": "Root turnover rate",
+    "unit": "yr\u207b\u00b9",
     "count": 523,
     "min": 0.0104,
     "max": 13.69,
@@ -338,6 +366,7 @@
   {
     "traitName": "Root_branching_ratio",
     "readableName": "Root branching ratio",
+    "unit": "ratio",
     "count": 474,
     "min": 1.21,
     "max": 41.0,
@@ -350,6 +379,7 @@
   {
     "traitName": "Root_total_structural_carbohydrate_concentration",
     "readableName": "Root total structural carbohydrate concentration",
+    "unit": "mg g\u207b\u00b9",
     "count": 465,
     "min": 184.0104,
     "max": 790.0,
@@ -362,6 +392,7 @@
   {
     "traitName": "Root_cortex_thickness",
     "readableName": "Root cortex thickness",
+    "unit": "mm",
     "count": 384,
     "min": 0.0,
     "max": 1019.1081,
@@ -374,6 +405,7 @@
   {
     "traitName": "Root_Mn_concentration",
     "readableName": "Root Mn concentration",
+    "unit": "mg g\u207b\u00b9",
     "count": 251,
     "min": 0.01,
     "max": 1.01,
@@ -386,6 +418,7 @@
   {
     "traitName": "Root_lifespan_mean",
     "readableName": "Root lifespan mean",
+    "unit": "days",
     "count": 244,
     "min": 32.0,
     "max": 4748.25,
@@ -398,6 +431,7 @@
   {
     "traitName": "Net_nitrogen_uptake_rate",
     "readableName": "Net nitrogen uptake rate",
+    "unit": "\u00b5mol g\u207b\u00b9 h\u207b\u00b9",
     "count": 239,
     "min": 0.25,
     "max": 138.2679,
@@ -410,6 +444,7 @@
   {
     "traitName": "Root_lifespan_median",
     "readableName": "Root lifespan median",
+    "unit": "days",
     "count": 231,
     "min": 30.0,
     "max": 2922.0,
@@ -422,6 +457,7 @@
   {
     "traitName": "Root_N_P_ratio",
     "readableName": "Root N P ratio",
+    "unit": "ratio",
     "count": 179,
     "min": 1.4845,
     "max": 92.0,
@@ -434,6 +470,7 @@
   {
     "traitName": "Root_vessel_diameter",
     "readableName": "Root vessel diameter",
+    "unit": "\u00b5m",
     "count": 165,
     "min": 1.94,
     "max": 42.681,
@@ -446,6 +483,7 @@
   {
     "traitName": "Root_xylem_vessel_number",
     "readableName": "Root xylem vessel number",
+    "unit": "vessels",
     "count": 129,
     "min": 0.4491,
     "max": 18683.7,
