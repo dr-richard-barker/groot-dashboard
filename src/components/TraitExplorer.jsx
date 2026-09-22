@@ -161,6 +161,9 @@ export default function TraitExplorer({ traitsSummary, traitDistributions, speci
             unit={currentSummary.unit}
             minVal={currentSummary.min}
             maxVal={currentSummary.max}
+            q25={currentSummary.q25}
+            median={currentSummary.median}
+            q75={currentSummary.q75}
           />
           {/* Interactive Trait Morphing Slider */}
           <div className="mt-3 bg-[#161d27] dark:bg-[#161d27] light:bg-[#ffffff] p-3 rounded-xl border border-[#232c39] light:border-[#e2e8f0] shadow-sm">

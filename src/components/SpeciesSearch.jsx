@@ -180,6 +180,9 @@ export default function SpeciesSearch({ speciesData, traitsSummary }) {
                     unit={currentTraitSummary?.unit}
                     minVal={currentTraitSummary?.min}
                     maxVal={currentTraitSummary?.max}
+                    q25={currentTraitSummary?.q25}
+                    median={currentTraitSummary?.median}
+                    q75={currentTraitSummary?.q75}
                   />
                 </div>
               );
