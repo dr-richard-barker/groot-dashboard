@@ -195,7 +195,7 @@ export default function SpeciesSearch({ speciesData, traitsSummary, isDark }) {
           {/* Grouped Comparison Bar Chart */}
           <div className="h-80 w-full pt-4">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={comparisonData} margin={{ top: 20, right: 20, left: 15, bottom: 50 }}>
+              <BarChart data={comparisonData} margin={{ top: 20, right: 20, left: 28, bottom: 52 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke={isDark ? '#232c39' : '#e2e8f0'} opacity={0.8} />
                 <XAxis dataKey="traitName" stroke={isDark ? '#9aa6b6' : '#475569'} fontSize={10} interval={0} angle={-20} textAnchor="end">
                   <Label
@@ -210,7 +210,7 @@ export default function SpeciesSearch({ speciesData, traitsSummary, isDark }) {
                     value="Species Mean Trait Value"
                     angle={-90}
                     position="left"
-                    offset={0}
+                    offset={-10}
                     style={{ fill: isDark ? '#6ea3d8' : '#2563eb', fontSize: 12, fontWeight: 700 }}
                   />
                 </YAxis>

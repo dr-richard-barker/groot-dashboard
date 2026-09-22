@@ -114,20 +114,20 @@ export default function RootDiagram({
           <svg viewBox="0 0 320 260" className="w-full h-full">
             {/* Soil Strata Horizons */}
             <rect x="0" y="30" width="320" height="35" fill="#452c1e" opacity={isDarkMode ? 0.4 : 0.15} />
-            <text x="8" y="52" fill={c.soilText} fontSize="8" fontWeight="bold">Horizon O (Organic litter)</text>
+            <text x="8" y="50" fill={c.soilText} fontSize="8" fontWeight="bold">Horizon O (Litter)</text>
 
             <rect x="0" y="65" width="320" height="55" fill="#3d271d" opacity={isDarkMode ? 0.3 : 0.12} />
-            <text x="8" y="95" fill={c.soilText} fontSize="8" fontWeight="bold">Horizon A (Topsoil / Rhizosphere)</text>
+            <text x="8" y="90" fill={c.soilText} fontSize="8" fontWeight="bold">Horizon A (Topsoil)</text>
 
             <rect x="0" y="120" width="320" height="70" fill="#2d1d16" opacity={isDarkMode ? 0.25 : 0.09} />
-            <text x="8" y="155" fill={c.soilText} fontSize="8" fontWeight="bold">Horizon B (Subsoil accumulation)</text>
+            <text x="8" y="150" fill={c.soilText} fontSize="8" fontWeight="bold">Horizon B (Subsoil)</text>
 
             <rect x="0" y="190" width="320" height="70" fill="#1f140f" opacity={isDarkMode ? 0.2 : 0.06} />
-            <text x="8" y="225" fill={c.soilText} fontSize="8" fontWeight="bold">Horizon C (Weathered substratum)</text>
+            <text x="8" y="220" fill={c.soilText} fontSize="8" fontWeight="bold">Horizon C (Bedrock)</text>
 
             {/* Soil Surface Line */}
             <line x1="0" y1="30" x2="320" y2="30" stroke={isDarkMode ? '#87563e' : '#a16207'} strokeWidth="2.5" />
-            <text x="110" y="22" fill={c.soilSurfaceText} fontSize="10" fontWeight="bold">Soil Surface (0 m)</text>
+            <text x="15" y="22" fill={c.soilSurfaceText} fontSize="10" fontWeight="bold">Soil Surface (0 m)</text>
 
             {/* Taproot Elongating into Soil Horizons */}
             {(() => {
@@ -163,16 +163,16 @@ export default function RootDiagram({
                   })}
 
                   {/* Root Tip Caliper Pointer */}
-                  <line x1="135" y1={rootDepthY} x2="165" y2={rootDepthY} stroke={c.skyText} strokeWidth="1.5" strokeDasharray="2 2" />
-                  <circle cx={rootDepthY ? 130 : 130} cy={rootDepthY} r="3" fill={c.skyText} />
-                  <text x="170" y={rootDepthY + 3} fill={c.skyText} fontSize="9" fontWeight="extrabold">
+                  <line x1="135" y1={rootDepthY} x2="160" y2={rootDepthY} stroke={c.skyText} strokeWidth="1.5" strokeDasharray="2 2" />
+                  <circle cx="130" cy={rootDepthY} r="3" fill={c.skyText} />
+                  <text x="165" y={rootDepthY + 3} fill={c.skyText} fontSize="9" fontWeight="extrabold">
                     {value} {unit}
                   </text>
                 </g>
               );
             })()}
 
-            {/* UNDERGROUND VERTICAL BOXPLOT / DISTRIBUTION ENVELOPE (Requested by user) */}
+            {/* UNDERGROUND VERTICAL BOXPLOT / DISTRIBUTION ENVELOPE */}
             {(() => {
               const boxX = 250;
               const boxWidth = 24;
@@ -212,16 +212,16 @@ export default function RootDiagram({
                   <line x1={boxX} y1={yMed} x2={boxX + boxWidth} y2={yMed} stroke={c.emeraldText} strokeWidth="2.5" />
 
                   {/* Annotations */}
-                  <text x={boxX - 6} y={yMed + 3} fill={c.emeraldText} fontSize="8" fontWeight="bold" textAnchor="end">
-                    Median
+                  <text x={boxX + boxWidth + 6} y={yMed + 3} fill={c.emeraldText} fontSize="8" fontWeight="bold">
+                    Med: {median}m
                   </text>
-                  <text x={boxX + boxWidth + 4} y={38} fill={c.textMuted} fontSize="8">
+                  <text x={boxX + boxWidth + 6} y={38} fill={c.textMuted} fontSize="8">
                     0 m
                   </text>
-                  <text x={boxX + boxWidth + 4} y={yMax} fill={c.textMuted} fontSize="8">
+                  <text x={boxX + boxWidth + 6} y={yMax} fill={c.textMuted} fontSize="8">
                     {maxVal}m
                   </text>
-                  <text x={boxX - 5} y={18} fill={c.blueText} fontSize="8" fontWeight="bold">
+                  <text x={boxX + boxWidth / 2} y={18} fill={c.blueText} fontSize="8" fontWeight="bold" textAnchor="middle">
                     Depth Boxplot
                   </text>
                 </g>
@@ -233,18 +233,22 @@ export default function RootDiagram({
         {/* 2. LATERAL SPREAD RADIAL CALIPER */}
         {viewMode === 'LATERAL_SPREAD' && (
           <svg viewBox="0 0 320 260" className="w-full h-full">
+            <text x="160" y="20" fill={c.textMuted} fontSize="9" fontWeight="bold" textAnchor="middle">
+              Crown Root Radial Expansion Caliper
+            </text>
+
             {/* Crown Center Stem */}
-            <circle cx="160" cy="130" r="12" fill="#3B6EA5" stroke="#ffffff" strokeWidth="2" />
-            <text x="160" y="133" fill="#ffffff" fontSize="8" fontWeight="bold" textAnchor="middle">Plant Axis</text>
+            <circle cx="160" cy="116" r="11" fill="#3B6EA5" stroke="#ffffff" strokeWidth="2" />
+            <text x="160" y="119" fill="#ffffff" fontSize="8" fontWeight="bold" textAnchor="middle">Plant Axis</text>
 
             {/* Radial Concentric Calipers */}
-            {[0.3, 0.6, 0.85, 1.0].map((rFactor, idx) => {
-              const radius = 25 + rFactor * 85 * normVal;
+            {[0.35, 0.65, 0.85, 1.0].map((rFactor, idx) => {
+              const radius = 20 + rFactor * 68 * normVal;
               return (
                 <circle
                   key={idx}
                   cx="160"
-                  cy="130"
+                  cy="116"
                   r={radius}
                   fill="none"
                   stroke="#3FB6A8"
@@ -258,14 +262,14 @@ export default function RootDiagram({
             {/* Lateral Root Rays spreading horizontally */}
             {[0, 45, 90, 135, 180, 225, 270, 315].map((angle, idx) => {
               const rad = (angle * Math.PI) / 180;
-              const r = 25 + 85 * normVal;
+              const r = 20 + 68 * normVal;
               const ex = 160 + Math.cos(rad) * r;
-              const ey = 130 + Math.sin(rad) * r;
+              const ey = 116 + Math.sin(rad) * r;
               return (
                 <line
                   key={idx}
                   x1="160"
-                  y1="130"
+                  y1="116"
                   x2={ex}
                   y2={ey}
                   stroke="#54c9ba"
@@ -275,11 +279,11 @@ export default function RootDiagram({
               );
             })}
 
-            {/* Horizontal Caliper Bracket & Radius Callout */}
-            <line x1="160" y1="235" x2={160 + 25 + 85 * normVal} y2="235" stroke="#fbbf24" strokeWidth="2" />
-            <line x1="160" y1="230" x2="160" y2="240" stroke={c.amberText} strokeWidth="2" />
-            <line x1={160 + 25 + 85 * normVal} y1="230" x2={160 + 25 + 85 * normVal} y2="240" stroke={c.amberText} strokeWidth="2" />
-            <text x={160 + (25 + 85 * normVal) / 2} y="250" fill={c.amberText} fontSize="10" fontWeight="bold" textAnchor="middle">
+            {/* Horizontal Caliper Bracket & Radius Callout (positioned below root envelope) */}
+            <line x1="160" y1="226" x2={160 + 20 + 68 * normVal} y2="226" stroke={c.amberText} strokeWidth="2" />
+            <line x1="160" y1="221" x2="160" y2="231" stroke={c.amberText} strokeWidth="2" />
+            <line x1={160 + 20 + 68 * normVal} y1="221" x2={160 + 20 + 68 * normVal} y2="231" stroke={c.amberText} strokeWidth="2" />
+            <text x={160 + (20 + 68 * normVal) / 2} y="246" fill={c.amberText} fontSize="10" fontWeight="bold" textAnchor="middle">
               Radial Spread: {value} {unit}
             </text>
           </svg>
@@ -290,8 +294,10 @@ export default function RootDiagram({
           <svg viewBox="0 0 320 260" className="w-full h-full">
             {/* Plasma Membrane Bilayer */}
             <rect x="20" y="95" width="280" height="60" rx="6" fill={c.cellBg} stroke={c.cellStroke} strokeWidth="2" />
-            <text x="30" y="85" fill={c.textMuted} fontSize="9" fontWeight="extrabold">SOIL SOLUTION / RHIZOSPHERE (Apoplast)</text>
-            <text x="30" y="175" fill={c.textMuted} fontSize="9" fontWeight="extrabold">ROOT CYTOPLASM (Symplast)</text>
+            <text x="15" y="16" fill={c.textMuted} fontSize="8.5" fontWeight="bold">RHIZOSPHERE (Soil Solution)</text>
+            <text x="305" y="16" fill={c.skyText} fontSize="8.5" fontWeight="bold" textAnchor="end">APOPLAST</text>
+            <text x="15" y="198" fill={c.textMuted} fontSize="8.5" fontWeight="bold">ROOT CYTOPLASM</text>
+            <text x="305" y="198" fill={c.emeraldText} fontSize="8.5" fontWeight="bold" textAnchor="end">SYMPLAST</text>
 
             {/* NRT1.1 / CHL1 (NPF6.3) Dual-Affinity Nitrate Transceptor */}
             <g
@@ -365,14 +371,15 @@ export default function RootDiagram({
               stroke={isDarkMode ? '#fbbf24' : '#d97706'}
               strokeWidth="2"
             />
+            <text x="25" y="72" fill={c.textMuted} fontSize="8" fontWeight="bold">Epidermal Cell</text>
             {/* Root Hair Tube Extension */}
             <path
-              d="M 100 110 C 180 100 240 105 285 110 C 285 130 240 135 100 125"
+              d="M 100 110 C 175 102 230 105 270 110 C 270 130 230 135 100 125"
               fill={c.cellBg}
               stroke={isDarkMode ? '#fbbf24' : '#d97706'}
               strokeWidth="2"
             />
-            <text x="175" y="95" fill={c.amberText} fontSize="9" fontWeight="bold">Root Hair Tip (High P Acquisition)</text>
+            <text x="175" y="165" fill={c.amberText} fontSize="9" fontWeight="bold" textAnchor="middle">Root Hair Apex (High P Uptake Zone)</text>
 
             {/* PHT1;1 / PHT1;4 Transporters on Root Hair Membrane */}
             <g
@@ -380,11 +387,11 @@ export default function RootDiagram({
               onMouseLeave={() => setHoveredRegion(null)}
               className="cursor-pointer"
             >
-              <rect x="250" y="92" width="28" height="42" rx="6" fill="#b45309" stroke="#ffffff" strokeWidth="1.5" />
-              <text x="264" y="116" fill="#ffffff" fontSize="8" fontWeight="extrabold" textAnchor="middle">PHT1</text>
+              <rect x="240" y="94" width="28" height="38" rx="6" fill="#b45309" stroke="#ffffff" strokeWidth="1.5" />
+              <text x="254" y="117" fill="#ffffff" fontSize="8" fontWeight="extrabold" textAnchor="middle">PHT1</text>
               {/* Phosphate influx */}
-              <path d="M 305 113 L 282 113 M 288 108 L 282 113 L 288 118" stroke={c.amberText} strokeWidth="2" fill="none" />
-              <text x="308" y="116" fill={c.amberText} fontSize="9" fontWeight="bold">H₂PO₄⁻</text>
+              <path d="M 300 113 L 274 113 M 280 108 L 274 113 L 280 118" stroke={c.amberText} strokeWidth="2" fill="none" />
+              <text x="287" y="103" fill={c.amberText} fontSize="8.5" fontWeight="bold" textAnchor="middle">H₂PO₄⁻</text>
             </g>
 
             {/* Secreted Acid Phosphatase enzyme bubble */}
@@ -393,9 +400,9 @@ export default function RootDiagram({
               onMouseLeave={() => setHoveredRegion(null)}
               className="cursor-pointer"
             >
-              <circle cx="190" cy="65" r="14" fill="#7c3aed" opacity="0.8" />
-              <text x="190" y="68" fill="#ffffff" fontSize="7" fontWeight="bold" textAnchor="middle">PAPase</text>
-              <text x="190" y="44" fill={c.purpleText} fontSize="8" textAnchor="middle">Organic P Cleavage</text>
+              <circle cx="180" cy="55" r="14" fill="#7c3aed" opacity="0.8" />
+              <text x="180" y="58" fill="#ffffff" fontSize="7" fontWeight="bold" textAnchor="middle">PAPase</text>
+              <text x="180" y="34" fill={c.purpleText} fontSize="8" fontWeight="bold" textAnchor="middle">Organic P Hydrolysis</text>
             </g>
 
             <text x="160" y="245" fill={c.amberText} fontSize="11" fontWeight="bold" textAnchor="middle">
@@ -407,6 +414,9 @@ export default function RootDiagram({
         {/* 5. CALCIUM CHANNELS & CASPARIAN STRIP BARRIER */}
         {viewMode === 'CALCIUM_TRANSPORTERS' && (
           <svg viewBox="0 0 320 260" className="w-full h-full">
+            <text x="15" y="42" fill={c.textMuted} fontSize="8" fontWeight="bold">CORTEX (Apoplast)</text>
+            <text x="250" y="42" fill={c.textMuted} fontSize="8" fontWeight="bold">STELE</text>
+
             {/* Endodermal Cell with Suberized Casparian Strip */}
             <rect x="60" y="60" width="200" height="130" rx="8" fill={c.cellBgDark} stroke={isDarkMode ? '#38bdf8' : '#0284c7'} strokeWidth="2" />
             <text x="160" y="80" fill={c.textSecondary} fontSize="10" fontWeight="bold" textAnchor="middle">Endodermal Cell</text>
@@ -462,8 +472,10 @@ export default function RootDiagram({
         {viewMode === 'CATION_TRANSPORTERS' && (
           <svg viewBox="0 0 320 260" className="w-full h-full">
             <rect x="20" y="90" width="280" height="65" rx="6" fill={c.cellBg} stroke={c.cellStroke} strokeWidth="2" />
-            <text x="30" y="78" fill={c.textMuted} fontSize="9" fontWeight="bold">RHIZOSPHERE</text>
-            <text x="30" y="175" fill={c.textMuted} fontSize="9" fontWeight="bold">CYTOPLASM</text>
+            <text x="15" y="16" fill={c.textMuted} fontSize="8.5" fontWeight="bold">RHIZOSPHERE (Soil Solution)</text>
+            <text x="305" y="16" fill={c.blueText} fontSize="8.5" fontWeight="bold" textAnchor="end">APOPLAST</text>
+            <text x="15" y="198" fill={c.textMuted} fontSize="8.5" fontWeight="bold">ROOT CYTOPLASM</text>
+            <text x="305" y="198" fill={c.emeraldText} fontSize="8.5" fontWeight="bold" textAnchor="end">SYMPLAST</text>
 
             {/* AKT1 Channel */}
             <g onMouseEnter={() => setHoveredRegion('AKT1: Inward-rectifying K⁺ channel activated by CIPK23/CBL1')} onMouseLeave={() => setHoveredRegion(null)} className="cursor-pointer">
@@ -510,7 +522,7 @@ export default function RootDiagram({
             <circle
               cx="160"
               cy="125"
-              r={95 + normVal * 20}
+              r={70 + normVal * 15}
               fill={c.cellBgDark}
               stroke={isDarkMode ? '#38bdf8' : '#0284c7'}
               strokeWidth="2"
@@ -521,8 +533,8 @@ export default function RootDiagram({
             {/* Root Hairs radiating outwards */}
             {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map((deg, i) => {
               const rad = (deg * Math.PI) / 180;
-              const r1 = 95 + normVal * 20;
-              const r2 = r1 + 14;
+              const r1 = 70 + normVal * 15;
+              const r2 = r1 + 9;
               return (
                 <line
                   key={i}
@@ -540,7 +552,7 @@ export default function RootDiagram({
             <circle
               cx="160"
               cy="125"
-              r={70 + normVal * 15}
+              r={52 + normVal * 10}
               fill={c.cellBg}
               stroke={c.cellStroke}
               strokeWidth="2"
@@ -553,7 +565,7 @@ export default function RootDiagram({
             <circle
               cx="160"
               cy="125"
-              r={45}
+              r={36}
               fill={isDarkMode ? '#1e1e38' : '#fee2e2'}
               stroke="#ef4444"
               strokeWidth="2.5"
@@ -567,7 +579,7 @@ export default function RootDiagram({
             <circle
               cx="160"
               cy="125"
-              r={36}
+              r={28}
               fill={isDarkMode ? '#312e81' : '#ede9fe'}
               stroke={isDarkMode ? '#a78bfa' : '#7c3aed'}
               strokeWidth="1.5"
@@ -577,16 +589,16 @@ export default function RootDiagram({
             />
 
             {/* Vascular Stele Core */}
-            <circle cx="160" cy="125" r="30" fill={isDarkMode ? '#1e1b4b' : '#e0e7ff'} />
+            <circle cx="160" cy="125" r="24" fill={isDarkMode ? '#1e1b4b' : '#e0e7ff'} />
 
             {/* Metaxylem Central Vessels (Dynamic count & size) */}
             {(() => {
               const numVessels = Math.max(3, Math.min(8, Math.round(3 + normVal * 5)));
-              const vesselRadius = Math.max(3, 4 + normVal * 4);
+              const vesselRadius = Math.max(2.5, 3 + normVal * 2.5);
               return [...Array(numVessels)].map((_, idx) => {
                 const angle = (idx * (360 / numVessels) * Math.PI) / 180;
-                const vx = 160 + Math.cos(angle) * 16;
-                const vy = 125 + Math.sin(angle) * 16;
+                const vx = 160 + Math.cos(angle) * 12;
+                const vy = 125 + Math.sin(angle) * 12;
                 return (
                   <circle
                     key={idx}
@@ -605,57 +617,61 @@ export default function RootDiagram({
             })()}
 
             {/* Central Metaxylem Vessel */}
-            <circle cx="160" cy="125" r={5 + normVal * 4} fill="#60a5fa" stroke="#ffffff" strokeWidth="1" />
+            <circle cx="160" cy="125" r={3.5 + normVal * 2.5} fill="#60a5fa" stroke="#ffffff" strokeWidth="1" />
 
-            {/* Caliper Annotations */}
-            <line x1="160" y1="125" x2="265" y2="45" stroke={c.tealText} strokeWidth="1.5" strokeDasharray="2 2" />
-            <text x="270" y="45" fill={c.tealText} fontSize="9" fontWeight="bold">Cortex Cell Layer</text>
+            {/* Caliper Annotations (bounded cleanly inside canvas) */}
+            <line x1="160" y1="125" x2="230" y2="45" stroke={c.tealText} strokeWidth="1.5" strokeDasharray="2 2" />
+            <text x="305" y="45" fill={c.tealText} fontSize="9" fontWeight="bold" textAnchor="end">Cortex Layer</text>
 
-            <line x1="160" y1="125" x2="55" y2="45" stroke={c.purpleText} strokeWidth="1.5" strokeDasharray="2 2" />
-            <text x="10" y="45" fill={c.purpleText} fontSize="9" fontWeight="bold">Stele & Metaxylem</text>
+            <line x1="160" y1="125" x2="90" y2="45" stroke={c.purpleText} strokeWidth="1.5" strokeDasharray="2 2" />
+            <text x="15" y="45" fill={c.purpleText} fontSize="9" fontWeight="bold">Stele & Metaxylem</text>
+
+            <text x="160" y="250" fill={c.tealText} fontSize="11" fontWeight="bold" textAnchor="middle">
+              Anatomy / Diameter: {value} {unit}
+            </text>
           </svg>
         )}
 
         {/* 8. BRANCHING ARCHITECTURE WITH DEVELOPMENTAL ZONES & 1 CM SCALE */}
         {viewMode === 'BRANCHING_ARCHITECTURE' && (
           <svg viewBox="0 0 320 260" className="w-full h-full">
-            {/* Developmental Zones */}
-            <rect x="15" y="30" width="85" height="60" rx="4" fill={c.cellBg} opacity={0.6} />
-            <text x="20" y="48" fill={c.skyText} fontSize="8" fontWeight="bold">Maturation Zone</text>
-            <text x="20" y="60" fill={c.textMuted} fontSize="7">Lateral root emergence</text>
+            {/* Developmental Zones on Left */}
+            <rect x="12" y="32" width="85" height="52" rx="4" fill={c.cellBg} opacity={0.6} />
+            <text x="16" y="50" fill={c.skyText} fontSize="8" fontWeight="bold">Maturation Zone</text>
+            <text x="16" y="62" fill={c.textMuted} fontSize="7">Lateral emergence</text>
 
-            <rect x="15" y="95" width="85" height="50" rx="4" fill={c.cellBgDark} opacity={0.6} />
-            <text x="20" y="112" fill={c.emeraldText} fontSize="8" fontWeight="bold">Elongation Zone</text>
-            <text x="20" y="124" fill={c.textMuted} fontSize="7">Rapid cell expansion</text>
+            <rect x="12" y="92" width="85" height="50" rx="4" fill={c.cellBgDark} opacity={0.6} />
+            <text x="16" y="110" fill={c.emeraldText} fontSize="8" fontWeight="bold">Elongation Zone</text>
+            <text x="16" y="122" fill={c.textMuted} fontSize="7">Cell expansion</text>
 
-            <rect x="15" y="150" width="85" height="50" rx="4" fill={isDarkMode ? '#312e81' : '#ede9fe'} opacity={0.6} />
-            <text x="20" y="168" fill={c.purpleText} fontSize="8" fontWeight="bold">Meristematic Zone</text>
-            <text x="20" y="180" fill={c.textMuted} fontSize="7">Quiescent center & root cap</text>
+            <rect x="12" y="150" width="85" height="50" rx="4" fill={isDarkMode ? '#312e81' : '#ede9fe'} opacity={0.6} />
+            <text x="16" y="168" fill={c.purpleText} fontSize="8" fontWeight="bold">Meristematic Zone</text>
+            <text x="16" y="180" fill={c.textMuted} fontSize="7">QC & root cap</text>
 
             {/* Main Primary Root Axis */}
-            <path d="M 180 20 L 180 210 Q 180 230 178 235" stroke="#54c9ba" strokeWidth="5" fill="none" strokeLinecap="round" />
+            <path d="M 160 20 L 160 215 Q 160 230 159 235" stroke="#54c9ba" strokeWidth="5" fill="none" strokeLinecap="round" />
             {/* Root Cap */}
-            <path d="M 174 230 Q 180 245 186 230 Z" fill="#c084fc" stroke="#ffffff" strokeWidth="1" />
+            <path d="M 155 230 Q 160 245 165 230 Z" fill="#c084fc" stroke="#ffffff" strokeWidth="1" />
 
             {/* Lateral Root Branches from Pericycle (Scaling with Branching Density) */}
             {(() => {
               const numBranches = Math.max(2, Math.min(10, Math.round(2 + normVal * 8)));
               return [...Array(numBranches)].map((_, i) => {
-                const by = 40 + i * (110 / numBranches);
+                const by = 40 + i * (115 / numBranches);
                 return (
                   <g key={i}>
-                    <path d={`M 180 ${by} Q 150 ${by + 8} 125 ${by + 16}`} stroke="#38bdf8" strokeWidth="2" fill="none" />
-                    <path d={`M 180 ${by + 6} Q 210 ${by + 14} 245 ${by + 22}`} stroke="#38bdf8" strokeWidth="2" fill="none" />
+                    <path d={`M 160 ${by} Q 135 ${by + 8} 115 ${by + 16}`} stroke="#38bdf8" strokeWidth="2" fill="none" />
+                    <path d={`M 160 ${by + 6} Q 185 ${by + 14} 210 ${by + 22}`} stroke="#38bdf8" strokeWidth="2" fill="none" />
                   </g>
                 );
               });
             })()}
 
             {/* 1 cm Scale Reference Bracket */}
-            <line x1="280" y1="50" x2="280" y2="130" stroke={c.amberText} strokeWidth="2" />
-            <line x1="275" y1="50" x2="285" y2="50" stroke={c.amberText} strokeWidth="2" />
-            <line x1="275" y1="130" x2="285" y2="130" stroke={c.amberText} strokeWidth="2" />
-            <text x="290" y="93" fill={c.amberText} fontSize="9" fontWeight="bold">1 cm scale</text>
+            <line x1="265" y1="65" x2="265" y2="135" stroke={c.amberText} strokeWidth="2" />
+            <line x1="258" y1="65" x2="272" y2="65" stroke={c.amberText} strokeWidth="2" />
+            <line x1="258" y1="135" x2="272" y2="135" stroke={c.amberText} strokeWidth="2" />
+            <text x="265" y="54" fill={c.amberText} fontSize="8.5" fontWeight="bold" textAnchor="middle">1 cm scale</text>
 
             <text x="160" y="250" fill={c.tealText} fontSize="11" fontWeight="bold" textAnchor="middle">
               Branching Metric: {value} {unit}
@@ -666,40 +682,46 @@ export default function RootDiagram({
         {/* 9. ROOT ECONOMICS SPECTRUM (SRL / SRA: Acquisitive vs Conservative Scale) */}
         {viewMode === 'ROOT_ECONOMICS_SRL' && (
           <svg viewBox="0 0 320 260" className="w-full h-full">
+            <text x="160" y="24" fill={c.textMuted} fontSize="8.5" fontWeight="bold" textAnchor="middle">
+              Root Economics Spectrum (Acquisitive vs Conservative)
+            </text>
+
             {/* Balance Scale Fulcrum */}
-            <polygon points="160,150 145,190 175,190" fill={isDarkMode ? '#475569' : '#94a3b8'} stroke={c.whiskerLine} strokeWidth="1.5" />
+            <polygon points="160,115 148,155 172,155" fill={isDarkMode ? '#475569' : '#94a3b8'} stroke={c.whiskerLine} strokeWidth="1.5" />
+
             {/* Balance Beam tilted by SRL value */}
             {(() => {
-              const tilt = (normVal - 0.5) * 40; // degrees
+              const tilt = (normVal - 0.5) * 30; // degrees
               const rad = (tilt * Math.PI) / 180;
-              const bx1 = 160 - Math.cos(rad) * 110;
-              const by1 = 150 - Math.sin(rad) * 110;
-              const bx2 = 160 + Math.cos(rad) * 110;
-              const by2 = 150 + Math.sin(rad) * 110;
+              const arm = 90;
+              const bx1 = 160 - Math.cos(rad) * arm;
+              const by1 = 115 - Math.sin(rad) * arm;
+              const bx2 = 160 + Math.cos(rad) * arm;
+              const by2 = 115 + Math.sin(rad) * arm;
 
               return (
                 <g>
                   <line x1={bx1} y1={by1} x2={bx2} y2={by2} stroke={isDarkMode ? '#38bdf8' : '#0284c7'} strokeWidth="3" />
 
                   {/* Left Pan: Acquisitive High SRL (Fine, Thin Root Thread) */}
-                  <line x1={bx1} y1={by1} x2={bx1} y2={by1 + 35} stroke={c.whiskerLine} strokeWidth="1.5" />
-                  <ellipse cx={bx1} cy={by1 + 35} rx="30" ry="10" fill={c.cellBgDark} stroke={c.emeraldText} strokeWidth="1.5" />
+                  <line x1={bx1} y1={by1} x2={bx1} y2={by1 + 25} stroke={c.whiskerLine} strokeWidth="1.5" />
+                  <ellipse cx={bx1} cy={by1 + 25} rx="26" ry="8" fill={c.cellBgDark} stroke={c.emeraldText} strokeWidth="1.5" />
                   {/* Fine Root Length Thread */}
-                  <path d={`M ${bx1 - 20} ${by1 + 30} Q ${bx1} ${by1 + 15} ${bx1 + 20} ${by1 + 32}`} stroke={c.emeraldText} strokeWidth="1.5" fill="none" />
-                  <text x={bx1} y={by1 + 55} fill={c.emeraldText} fontSize="8" fontWeight="bold" textAnchor="middle">ACQUISITIVE</text>
-                  <text x={bx1} y={by1 + 65} fill={c.textMuted} fontSize="7" textAnchor="middle">High SRL, Thin diameter</text>
+                  <path d={`M ${bx1 - 16} ${by1 + 22} Q ${bx1} ${by1 + 10} ${bx1 + 16} ${by1 + 24}`} stroke={c.emeraldText} strokeWidth="1.5" fill="none" />
+                  <text x={bx1} y={by1 + 43} fill={c.emeraldText} fontSize="8" fontWeight="bold" textAnchor="middle">ACQUISITIVE</text>
+                  <text x={bx1} y={by1 + 54} fill={c.textMuted} fontSize="7" textAnchor="middle">High SRL (Thin root)</text>
 
                   {/* Right Pan: Conservative Low SRL (Thick, Dense Root Chunk) */}
-                  <line x1={bx2} y1={by2} x2={bx2} y2={by2 + 35} stroke={c.whiskerLine} strokeWidth="1.5" />
-                  <ellipse cx={bx2} cy={by2 + 35} rx="30" ry="10" fill={c.cellBgDark} stroke={c.amberText} strokeWidth="1.5" />
-                  <rect x={bx2 - 12} y={by2 + 20} width="24" height="12" rx="3" fill="#d97706" />
-                  <text x={bx2} y={by2 + 55} fill={c.amberText} fontSize="8" fontWeight="bold" textAnchor="middle">CONSERVATIVE</text>
-                  <text x={bx2} y={by2 + 65} fill={c.textMuted} fontSize="7" textAnchor="middle">Low SRL, High longevity</text>
+                  <line x1={bx2} y1={by2} x2={bx2} y2={by2 + 25} stroke={c.whiskerLine} strokeWidth="1.5" />
+                  <ellipse cx={bx2} cy={by2 + 25} rx="26" ry="8" fill={c.cellBgDark} stroke={c.amberText} strokeWidth="1.5" />
+                  <rect x={bx2 - 10} y={by2 + 13} width="20" height="10" rx="3" fill="#d97706" />
+                  <text x={bx2} y={by2 + 43} fill={c.amberText} fontSize="8" fontWeight="bold" textAnchor="middle">CONSERVATIVE</text>
+                  <text x={bx2} y={by2 + 54} fill={c.textMuted} fontSize="7" textAnchor="middle">Low SRL (Dense / Tough)</text>
                 </g>
               );
             })()}
 
-            <text x="160" y="240" fill={c.tealText} fontSize="11" fontWeight="bold" textAnchor="middle">
+            <text x="160" y="245" fill={c.tealText} fontSize="11" fontWeight="bold" textAnchor="middle">
               Specific Root Length: {value} {unit}
             </text>
           </svg>
@@ -709,30 +731,38 @@ export default function RootDiagram({
         {viewMode === 'MYCORRHIZA_SYMBIOSIS' && (
           <svg viewBox="0 0 320 260" className="w-full h-full">
             {/* Cortical Cell Enclosure */}
-            <rect x="40" y="50" width="240" height="140" rx="10" fill={c.cellBg} stroke={c.cellStroke} strokeWidth="2" />
-            <text x="50" y="70" fill={c.textMuted} fontSize="9" fontWeight="bold">Root Cortical Cell Lumen</text>
+            <rect x="30" y="45" width="260" height="145" rx="10" fill={c.cellBg} stroke={c.cellStroke} strokeWidth="2" />
+            <text x="40" y="65" fill={c.textMuted} fontSize="8.5" fontWeight="bold">Root Cortical Cell Lumen</text>
 
             {/* Fungal Appressorium & Penetrating Hypha */}
-            <circle cx="50" cy="120" r="10" fill={isDarkMode ? '#a78bfa' : '#7c3aed'} stroke="#ffffff" strokeWidth="1.5" />
-            <text x="50" y="103" fill={c.purpleText} fontSize="7" textAnchor="middle">Appressorium</text>
-            <path d="M 50 120 L 100 120" stroke={isDarkMode ? '#a78bfa' : '#7c3aed'} strokeWidth="3" />
+            <circle cx="45" cy="115" r="9" fill={isDarkMode ? '#a78bfa' : '#7c3aed'} stroke="#ffffff" strokeWidth="1.5" />
+            <text x="45" y="98" fill={c.purpleText} fontSize="7" textAnchor="middle">Appressorium</text>
+            <path d="M 45 115 L 90 115" stroke={isDarkMode ? '#a78bfa' : '#7c3aed'} strokeWidth="3" />
 
-            {/* Intricate Arbuscule (Site of Carbon for Phosphorus / Nitrogen Exchange) */}
+            {/* Intricate Arbuscule in Left-Center */}
             <g
               onMouseEnter={() => setHoveredRegion('Arbuscule: Finely branched fungal haustorium inside cortical cell for reciprocal nutrient trade')}
               onMouseLeave={() => setHoveredRegion(null)}
               className="cursor-pointer"
             >
-              <circle cx="160" cy="120" r="45" fill="#7c3aed" opacity={isDarkMode ? 0.3 : 0.15} />
+              <circle cx="135" cy="115" r="42" fill="#7c3aed" opacity={isDarkMode ? 0.3 : 0.15} />
               {/* Branched arbuscular tree */}
-              <path d="M 100 120 Q 130 120 150 120" stroke={isDarkMode ? '#c084fc' : '#7c3aed'} strokeWidth="3" fill="none" />
-              <path d="M 150 120 Q 170 90 190 85 M 170 100 Q 185 85 205 90" stroke={isDarkMode ? '#c084fc' : '#7c3aed'} strokeWidth="2" fill="none" />
-              <path d="M 150 120 Q 170 120 205 120 M 175 120 Q 195 110 215 110" stroke={isDarkMode ? '#c084fc' : '#7c3aed'} strokeWidth="2" fill="none" />
-              <path d="M 150 120 Q 170 150 195 155 M 170 140 Q 185 155 205 150" stroke={isDarkMode ? '#c084fc' : '#7c3aed'} strokeWidth="2" fill="none" />
+              <path d="M 90 115 Q 110 115 125 115" stroke={isDarkMode ? '#c084fc' : '#7c3aed'} strokeWidth="3" fill="none" />
+              <path d="M 125 115 Q 145 88 160 85 M 140 98 Q 155 85 170 90" stroke={isDarkMode ? '#c084fc' : '#7c3aed'} strokeWidth="2" fill="none" />
+              <path d="M 125 115 Q 145 115 175 115 M 145 115 Q 160 108 175 106" stroke={isDarkMode ? '#c084fc' : '#7c3aed'} strokeWidth="2" fill="none" />
+              <path d="M 125 115 Q 145 142 165 145 M 140 132 Q 155 145 170 140" stroke={isDarkMode ? '#c084fc' : '#7c3aed'} strokeWidth="2" fill="none" />
+            </g>
 
-              <text x="180" y="115" fill={isDarkMode ? '#ffffff' : '#4c1d95'} fontSize="9" fontWeight="bold">ARBUSCULE</text>
-              <text x="180" y="128" fill={isDarkMode ? '#e9d5ff' : '#6d28d9'} fontSize="7">P / N → Plant</text>
-              <text x="180" y="137" fill={isDarkMode ? '#fde047' : '#92400e'} fontSize="7">Sugar / Lipids → Fungus</text>
+            {/* Nutrient Trade Dedicated Info Badge on Right (No line collisions) */}
+            <g>
+              <rect x="195" y="78" width="85" height="72" rx="6" fill={c.cellBgDark} stroke={isDarkMode ? '#7c3aed' : '#c084fc'} strokeWidth="1.5" />
+              <text x="237" y="95" fill={isDarkMode ? '#e9d5ff' : '#6d28d9'} fontSize="8.5" fontWeight="extrabold" textAnchor="middle">ARBUSCULE</text>
+              <line x1="205" y1="102" x2="270" y2="102" stroke={isDarkMode ? '#475569' : '#cbd5e1'} strokeWidth="1" />
+              <text x="237" y="117" fill={c.emeraldText} fontSize="7.5" fontWeight="bold" textAnchor="middle">P / N → Plant</text>
+              <text x="237" y="132" fill={c.amberText} fontSize="7.5" fontWeight="bold" textAnchor="middle">C / Lipids → Fungus</text>
+              <text x="237" y="143" fill={c.textMuted} fontSize="6.5" textAnchor="middle">Reciprocal Exchange</text>
+              {/* Exchange arrow from arbuscule to badge */}
+              <path d="M 175 115 L 193 115 M 187 111 L 193 115 L 187 119" stroke={isDarkMode ? '#c084fc' : '#7c3aed'} strokeWidth="2" fill="none" />
             </g>
 
             {/* Percentage Colonization Meter */}
@@ -750,32 +780,39 @@ export default function RootDiagram({
             {/* Phenological Aging Progression */}
             <g>
               {/* Young Active Root (White) */}
-              <rect x="30" y="40" width="70" height="50" rx="6" fill={c.cellBgDark} stroke={c.emeraldText} strokeWidth="2" />
-              <text x="65" y="60" fill={c.emeraldText} fontSize="8" fontWeight="bold" textAnchor="middle">Active Absorptive</text>
-              <text x="65" y="75" fill={isDarkMode ? '#ffffff' : '#0f172a'} fontSize="7" textAnchor="middle">White / Translucent</text>
+              <rect x="20" y="35" width="75" height="50" rx="6" fill={c.cellBgDark} stroke={c.emeraldText} strokeWidth="2" />
+              <text x="57" y="55" fill={c.emeraldText} fontSize="8" fontWeight="bold" textAnchor="middle">Active Absorptive</text>
+              <text x="57" y="70" fill={isDarkMode ? '#ffffff' : '#0f172a'} fontSize="7" textAnchor="middle">White / Translucent</text>
 
               {/* Arrow */}
-              <path d="M 105 65 L 125 65 M 120 60 L 125 65 L 120 70" stroke={c.whiskerLine} strokeWidth="2" />
+              <path d="M 100 60 L 115 60 M 110 56 L 115 60 L 110 64" stroke={c.whiskerLine} strokeWidth="2" />
 
               {/* Mature Suberized Root (Brown) */}
-              <rect x="130" y="40" width="70" height="50" rx="6" fill="#3d271d" opacity={isDarkMode ? 1 : 0.25} stroke={c.soilText} strokeWidth="2" />
-              <text x="165" y="60" fill={c.amberText} fontSize="8" fontWeight="bold" textAnchor="middle">Pioneer Suberized</text>
-              <text x="165" y="75" fill={isDarkMode ? '#fed7aa' : '#78350f'} fontSize="7" textAnchor="middle">Secondary growth</text>
+              <rect x="120" y="35" width="75" height="50" rx="6" fill="#3d271d" opacity={isDarkMode ? 1 : 0.25} stroke={c.soilText} strokeWidth="2" />
+              <text x="157" y="55" fill={c.amberText} fontSize="8" fontWeight="bold" textAnchor="middle">Pioneer Suberized</text>
+              <text x="157" y="70" fill={isDarkMode ? '#fed7aa' : '#78350f'} fontSize="7" textAnchor="middle">Secondary growth</text>
 
               {/* Arrow */}
-              <path d="M 205 65 L 225 65 M 220 60 L 225 65 L 220 70" stroke={c.whiskerLine} strokeWidth="2" />
+              <path d="M 200 60 L 215 60 M 210 56 L 215 60 L 210 64" stroke={c.whiskerLine} strokeWidth="2" />
 
               {/* Senescent / Litter (Fragmenting) */}
-              <rect x="230" y="40" width="70" height="50" rx="6" fill={isDarkMode ? '#1c1917' : '#fee2e2'} stroke={c.redText} strokeWidth="2" />
-              <text x="265" y="60" fill={c.redText} fontSize="8" fontWeight="bold" textAnchor="middle">Senescent Litter</text>
-              <text x="265" y="75" fill={isDarkMode ? '#fca5a5' : '#991b1b'} fontSize="7" textAnchor="middle">Microbial decay</text>
+              <rect x="220" y="35" width="75" height="50" rx="6" fill={isDarkMode ? '#1c1917' : '#fee2e2'} stroke={c.redText} strokeWidth="2" />
+              <text x="257" y="55" fill={c.redText} fontSize="8" fontWeight="bold" textAnchor="middle">Senescent Litter</text>
+              <text x="257" y="70" fill={isDarkMode ? '#fca5a5' : '#991b1b'} fontSize="7" textAnchor="middle">Microbial decay</text>
             </g>
 
-            {/* Exponential Decay Curve (e^-kt) for Litter Mass Loss */}
+            {/* Exponential Decay Curve (e^-kt) for Litter Mass Loss with Clear Axis Guides */}
             <g>
-              <path d="M 50 200 Q 120 180 180 140 T 280 125" fill="none" stroke={c.amberText} strokeWidth="2.5" />
-              <text x="60" y="145" fill={c.amberText} fontSize="9" fontWeight="bold">Mass Loss Decay: e⁻ᵏᵗ</text>
-              <text x="60" y="160" fill={c.textMuted} fontSize="8">Annual turnover rate (yr⁻¹)</text>
+              <line x1="50" y1="115" x2="50" y2="200" stroke={c.whiskerLine} strokeWidth="1.2" />
+              <line x1="50" y1="200" x2="280" y2="200" stroke={c.whiskerLine} strokeWidth="1.2" />
+              <text x="45" y="120" fill={c.textMuted} fontSize="7" textAnchor="end">100%</text>
+              <text x="45" y="200" fill={c.textMuted} fontSize="7" textAnchor="end">0%</text>
+              <text x="280" y="214" fill={c.textMuted} fontSize="7" textAnchor="end">Cohort Age (t) →</text>
+
+              {/* Mathematically accurate exponential decay M0 * e^(-kt) */}
+              <path d="M 50 125 Q 110 180 180 194 T 270 198" fill="none" stroke={c.amberText} strokeWidth="2.5" />
+              <text x="270" y="132" fill={c.amberText} fontSize="8.5" fontWeight="bold" textAnchor="end">Mass Loss Decay: M(t) = M₀ e⁻ᵏᵗ</text>
+              <text x="270" y="146" fill={c.textMuted} fontSize="7.5" textAnchor="end">Annual turnover & decomposition rate</text>
             </g>
 
             <text x="160" y="245" fill={c.amberText} fontSize="11" fontWeight="bold" textAnchor="middle">
@@ -788,20 +825,24 @@ export default function RootDiagram({
         {viewMode === 'RESPIRATION_METABOLIC' && (
           <svg viewBox="0 0 320 260" className="w-full h-full">
             {/* Root Cell */}
-            <rect x="40" y="45" width="240" height="150" rx="12" fill={c.cellBgDark} stroke={c.redText} strokeWidth="2" />
+            <rect x="35" y="42" width="250" height="150" rx="12" fill={c.cellBgDark} stroke={c.redText} strokeWidth="2" />
 
-            {/* Mitochondria with Cristae Folds */}
-            <ellipse cx="160" cy="120" rx="60" ry="35" fill={isDarkMode ? '#7f1d1d' : '#fee2e2'} stroke={c.redText} strokeWidth="2" />
-            <path d="M 120 120 Q 140 100 160 120 Q 180 140 200 120" stroke={isDarkMode ? '#fca5a5' : '#dc2626'} strokeWidth="2" fill="none" />
-            <text x="160" y="105" fill={isDarkMode ? '#fca5a5' : '#991b1b'} fontSize="8" fontWeight="bold" textAnchor="middle">MITOCHONDRIA</text>
-            <text x="160" y="138" fill={isDarkMode ? '#ffffff' : '#450a0a'} fontSize="8" textAnchor="middle">ATP Synthesis (pmf)</text>
+            {/* Mitochondria with Peripheral Cristae Folds (unobstructed central lumen) */}
+            <ellipse cx="160" cy="118" rx="65" ry="38" fill={isDarkMode ? '#7f1d1d' : '#fee2e2'} stroke={c.redText} strokeWidth="2" />
+            <path d="M 97 118 Q 115 108 120 118 Q 115 128 97 118" stroke={isDarkMode ? '#fca5a5' : '#dc2626'} strokeWidth="1.8" fill="none" />
+            <path d="M 223 118 Q 205 108 200 118 Q 205 128 223 118" stroke={isDarkMode ? '#fca5a5' : '#dc2626'} strokeWidth="1.8" fill="none" />
+            <path d="M 125 90 Q 132 102 138 95" stroke={isDarkMode ? '#fca5a5' : '#dc2626'} strokeWidth="1.5" fill="none" />
+            <path d="M 195 146 Q 188 134 182 141" stroke={isDarkMode ? '#fca5a5' : '#dc2626'} strokeWidth="1.5" fill="none" />
 
-            {/* O2 Influx & CO2 Efflux */}
-            <path d="M 60 15 L 85 45 M 78 40 L 85 45 L 87 38" stroke={isDarkMode ? '#38bdf8' : '#0284c7'} strokeWidth="2" fill="none" />
-            <text x="60" y="12" fill={c.skyText} fontSize="10" fontWeight="bold">O₂ uptake</text>
+            <text x="160" y="112" fill={isDarkMode ? '#fca5a5' : '#991b1b'} fontSize="8.5" fontWeight="bold" textAnchor="middle">MITOCHONDRIA</text>
+            <text x="160" y="128" fill={isDarkMode ? '#ffffff' : '#450a0a'} fontSize="8" fontWeight="bold" textAnchor="middle">ATP Synthesis (pmf)</text>
 
-            <path d="M 235 45 L 260 15 M 255 22 L 260 15 L 253 15" stroke={c.redText} strokeWidth="2" fill="none" />
-            <text x="265" y="12" fill={c.redText} fontSize="10" fontWeight="bold">CO₂ efflux</text>
+            {/* O2 Influx & CO2 Efflux (anchored inside canvas boundaries) */}
+            <text x="15" y="20" fill={c.skyText} fontSize="8.5" fontWeight="bold">O₂ uptake</text>
+            <path d="M 35 26 L 68 45 M 60 45 L 68 45 L 70 37" stroke={isDarkMode ? '#38bdf8' : '#0284c7'} strokeWidth="2" fill="none" />
+
+            <text x="305" y="20" fill={c.redText} fontSize="8.5" fontWeight="bold" textAnchor="end">CO₂ efflux</text>
+            <path d="M 252 45 L 285 26 M 275 26 L 285 26 L 283 35" stroke={c.redText} strokeWidth="2" fill="none" />
 
             <text x="160" y="245" fill={c.redText} fontSize="11" fontWeight="bold" textAnchor="middle">
               Respiration Rate: {value} {unit}
@@ -812,19 +853,23 @@ export default function RootDiagram({
         {/* 13. TISSUE DENSITY & LIGNIFIED CELL WALL PACKING */}
         {viewMode === 'TISSUE_DENSITY' && (
           <svg viewBox="0 0 320 260" className="w-full h-full">
+            <text x="160" y="22" fill={c.textMuted} fontSize="9" fontWeight="bold" textAnchor="middle">
+              Cell Wall Lignification & Intercellular Porosity
+            </text>
+
             {/* Hexagonal / Polygonal Cell Wall Matrix */}
             {[...Array(15)].map((_, i) => {
               const row = Math.floor(i / 5);
               const col = i % 5;
               const cx = 50 + col * 55 + (row % 2 === 1 ? 27 : 0);
-              const cy = 60 + row * 50;
+              const cy = 68 + row * 48;
               const wallThickness = 1.5 + normVal * 4;
               return (
                 <circle
                   key={i}
                   cx={cx}
                   cy={cy}
-                  r="22"
+                  r="21"
                   fill={c.cellBg}
                   stroke={normVal > 0.6 ? '#d97706' : '#3B6EA5'}
                   strokeWidth={wallThickness}
@@ -834,9 +879,11 @@ export default function RootDiagram({
                 />
               );
             })}
-            <text x="160" y="30" fill={c.textMuted} fontSize="9" fontWeight="bold" textAnchor="middle">
-              Cell Wall Lignification & Intercellular Porosity
+
+            <text x="160" y="214" fill={c.amberText} fontSize="8" textAnchor="middle">
+              Secondary Lignification: {((0.15 + normVal * 0.7) * 100).toFixed(0)}% | Apoplastic Wall Packing: {normVal > 0.5 ? 'Dense' : 'Spongy'}
             </text>
+
             <text x="160" y="245" fill={c.blueText} fontSize="11" fontWeight="bold" textAnchor="middle">
               Tissue Density / Dry Matter: {value} {unit}
             </text>

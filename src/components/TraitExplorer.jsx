@@ -217,7 +217,7 @@ export default function TraitExplorer({ traitsSummary, traitDistributions, speci
             <div className="h-64 w-full mt-2">
               {currentDistribution.length > 0 ? (
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={currentDistribution} margin={{ top: 20, right: 20, left: 10, bottom: 45 }}>
+                  <BarChart data={currentDistribution} margin={{ top: 20, right: 20, left: 28, bottom: 48 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke={isDark ? '#232c39' : '#e2e8f0'} opacity={0.8} />
                     <XAxis dataKey="label" stroke={isDark ? '#9aa6b6' : '#475569'} fontSize={10} angle={-30} textAnchor="end" interval={1}>
                       <Label
@@ -232,7 +232,7 @@ export default function TraitExplorer({ traitsSummary, traitDistributions, speci
                         value="Sample Count (n)"
                         angle={-90}
                         position="left"
-                        offset={-5}
+                        offset={-10}
                         style={{ fill: isDark ? '#6ea3d8' : '#2563eb', fontSize: 12, fontWeight: 700 }}
                       />
                     </YAxis>
