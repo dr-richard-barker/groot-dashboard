@@ -1,0 +1,32 @@
+{
+  "totalRecords": 114222,
+  "totalSpecies": 6213,
+  "totalTraits": 38,
+  "growthForms": [
+    "fern",
+    "graminoid",
+    "herb",
+    "herb/shrub",
+    "shrub",
+    "shrub/tree",
+    "subshrub",
+    "tree"
+  ],
+  "mycorrhizalTypes": [
+    "AM",
+    "EcM",
+    "EcM-AM",
+    "ErM",
+    "NM",
+    "NM-AM",
+    "OM"
+  ],
+  "biomes": [
+    "Arid",
+    "Climate Zone info missing",
+    "Continental",
+    "Polar",
+    "Temperate",
+    "Tropical"
+  ]
+}
