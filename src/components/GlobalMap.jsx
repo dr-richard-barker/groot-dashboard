@@ -46,60 +46,72 @@ export default function GlobalMap({ geoPoints, metadata, isDark }) {
     });
   }, [geoPoints, selectedBiome, searchLocation]);
 
-  // Initialize and clean up Leaflet Map safely across React component lifecycle
+  // 1. Initialize and clean up Leaflet Map once on mount
   useEffect(() => {
     if (!mapContainerRef.current) return;
 
-    // Check if map instance does not exist
-    if (!mapInstanceRef.current) {
-      const map = L.map(mapContainerRef.current, {
-        center: [20, 0],
-        zoom: 2,
-        minZoom: 2,
-        maxZoom: 14,
-        worldCopyJump: true
-      });
-
-      // Layer group for circle markers
-      const markerGroup = L.layerGroup().addTo(map);
-      markersLayerRef.current = markerGroup;
-
-      mapInstanceRef.current = map;
+    // Reset any residual Leaflet ID if container remounted
+    if (mapContainerRef.current._leaflet_id) {
+      mapContainerRef.current._leaflet_id = null;
     }
 
-    const map = mapInstanceRef.current;
+    const map = L.map(mapContainerRef.current, {
+      center: [20, 0],
+      zoom: 2.2,
+      minZoom: 2,
+      maxZoom: 16,
+      zoomControl: true,
+      preferCanvas: true // Use canvas renderer for high-performance with 1,600+ points
+    });
 
-    // Handle tile layer according to current theme (Light = Positron, Dark = Dark Matter)
-    if (tileLayerRef.current) {
-      map.removeLayer(tileLayerRef.current);
-    }
+    // Layer group for circle markers
+    const markerGroup = L.layerGroup().addTo(map);
+    markersLayerRef.current = markerGroup;
+    mapInstanceRef.current = map;
 
+    // Set initial tile layer (Esri World Gray Canvas - highly reliable, public scientific basemap)
     const tileUrl = isDark
-      ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
-      : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
-
-    const attribution = isDark
-      ? '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
-      : '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>';
+      ? 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}'
+      : 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}';
 
     const tiles = L.tileLayer(tileUrl, {
-      attribution: attribution,
-      subdomains: 'abcd',
-      maxZoom: 19
-    }).addTo(map);
+      attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
+      maxZoom: 16
+    });
 
+    tiles.on('tileerror', () => {
+      console.warn('Esri Canvas tiles error, attempting fallback to World Topo');
+      if (mapInstanceRef.current && tileLayerRef.current === tiles) {
+        map.removeLayer(tiles);
+        const fallback = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
+          attribution: 'Tiles &copy; Esri',
+          maxZoom: 16
+        }).addTo(map);
+        tileLayerRef.current = fallback;
+      }
+    });
+
+    tiles.addTo(map);
     tileLayerRef.current = tiles;
 
-    // CRITICAL: Call invalidateSize to fix gray/blank tiles when mounting in React tabs
-    const timer = setTimeout(() => {
+    // Auto-resize observer to automatically handle sidebar, tab switch, or window changes
+    const resizeObserver = new ResizeObserver(() => {
       if (mapInstanceRef.current) {
         mapInstanceRef.current.invalidateSize();
       }
-    }, 150);
+    });
+    resizeObserver.observe(mapContainerRef.current);
 
-    // Cleanup on unmount to prevent "Map container is already initialized" crash
+    // Staggered size invalidations to ensure proper tile calculation as DOM settles
+    const t1 = setTimeout(() => map.invalidateSize(), 60);
+    const t2 = setTimeout(() => map.invalidateSize(), 200);
+    const t3 = setTimeout(() => map.invalidateSize(), 500);
+
     return () => {
-      clearTimeout(timer);
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+      resizeObserver.disconnect();
       if (mapInstanceRef.current) {
         mapInstanceRef.current.remove();
         mapInstanceRef.current = null;
@@ -107,9 +119,43 @@ export default function GlobalMap({ geoPoints, metadata, isDark }) {
         tileLayerRef.current = null;
       }
     };
+  }, []);
+
+  // 2. Dynamically update tiles when theme toggles (without destroying map or markers)
+  useEffect(() => {
+    if (!mapInstanceRef.current) return;
+    const map = mapInstanceRef.current;
+
+    if (tileLayerRef.current) {
+      map.removeLayer(tileLayerRef.current);
+    }
+
+    const tileUrl = isDark
+      ? 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}'
+      : 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}';
+
+    const tiles = L.tileLayer(tileUrl, {
+      attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
+      maxZoom: 16
+    });
+
+    tiles.on('tileerror', () => {
+      console.warn('Esri Canvas tiles error, attempting fallback to World Topo');
+      if (mapInstanceRef.current && tileLayerRef.current === tiles) {
+        map.removeLayer(tiles);
+        const fallback = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
+          attribution: 'Tiles &copy; Esri',
+          maxZoom: 16
+        }).addTo(map);
+        tileLayerRef.current = fallback;
+      }
+    });
+
+    tiles.addTo(map);
+    tileLayerRef.current = tiles;
   }, [isDark]);
 
-  // Update Markers whenever filtered points change
+  // 3. Update Markers whenever filtered points change
   useEffect(() => {
     if (!mapInstanceRef.current || !markersLayerRef.current) return;
 
@@ -118,15 +164,15 @@ export default function GlobalMap({ geoPoints, metadata, isDark }) {
 
     filteredGeoPoints.forEach((pt) => {
       const color = getBiomeColor(pt.biome);
-      const radius = Math.min(Math.max(pt.count / 4, 4), 16);
+      const radius = Math.min(Math.max(pt.count / 4, 4), 14);
 
       const marker = L.circleMarker([pt.lat, pt.lon], {
         radius: radius,
         fillColor: color,
         color: '#ffffff',
-        weight: 1,
-        opacity: 0.9,
-        fillOpacity: 0.7
+        weight: 1.2,
+        opacity: 0.95,
+        fillOpacity: 0.75
       });
 
       // Click to select site
@@ -135,12 +181,12 @@ export default function GlobalMap({ geoPoints, metadata, isDark }) {
       });
 
       marker.bindPopup(`
-        <div style="font-family: sans-serif; font-size: 13px; line-height: 1.4;">
-          <strong style="color: ${color}; font-size: 14px;">${pt.loc || 'Study Site'}</strong><br/>
-          <span style="color: #64748b;">Coordinates: <strong>${pt.lat}°N, ${pt.lon}°E</strong></span><br/>
-          <span style="color: #64748b;">Unique Species: <strong>${pt.speciesCount}</strong></span><br/>
-          <span style="color: #64748b;">Observation Records: <strong>${pt.count}</strong></span><br/>
-          ${pt.biome ? `<span style="display:inline-block; margin-top:5px; padding:2px 6px; background:#0f172a; border-radius:4px; color:#ffffff; font-size:11px; font-weight:bold;">Biome: ${pt.biome}</span>` : ''}
+        <div style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; line-height: 1.4; min-width: 180px;">
+          <strong style="color: ${color}; font-size: 13px; display: block; margin-bottom: 4px;">${pt.loc || 'Study Site'}</strong>
+          <div style="color: #64748b; margin-bottom: 2px;">Coordinates: <strong>${pt.lat.toFixed(2)}°N, ${pt.lon.toFixed(2)}°E</strong></div>
+          <div style="color: #64748b; margin-bottom: 2px;">Unique Species: <strong>${pt.speciesCount}</strong></div>
+          <div style="color: #64748b; margin-bottom: 4px;">Observation Records: <strong>${pt.count}</strong></div>
+          ${pt.biome ? `<span style="display:inline-block; padding:2px 8px; background:${color}22; border:1px solid ${color}66; border-radius:6px; color:${color}; font-size:10px; font-weight:700;">Biome: ${pt.biome}</span>` : ''}
         </div>
       `);
 
@@ -229,10 +275,18 @@ export default function GlobalMap({ geoPoints, metadata, isDark }) {
       </div>
 
       {/* Main Map + Inspector Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
         {/* Map Container */}
-        <div className={`rounded-2xl border border-slate-200 dark:border-[#232c39] overflow-hidden shadow-lg p-3 bg-white dark:bg-[#161d27] ${selectedSite ? 'lg:col-span-3' : 'lg:col-span-4'}`}>
-          <div ref={mapContainerRef} className="w-full h-[550px] rounded-xl overflow-hidden z-0" />
+        <div
+          className={`rounded-2xl border border-slate-200 dark:border-[#232c39] overflow-hidden shadow-lg p-3 bg-white dark:bg-[#161d27] transition-all duration-300 w-full min-h-[580px] ${
+            selectedSite ? 'lg:col-span-3' : 'lg:col-span-4'
+          }`}
+        >
+          <div
+            ref={mapContainerRef}
+            style={{ width: '100%', height: '560px', minHeight: '560px' }}
+            className="w-full rounded-xl overflow-hidden z-0 bg-slate-100 dark:bg-[#0f141b]"
+          />
         </div>
 
         {/* Selected Site Detail Inspector Panel */}

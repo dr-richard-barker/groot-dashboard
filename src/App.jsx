@@ -8,7 +8,28 @@ import AboutSection from './components/AboutSection';
 import { Sprout, Loader2 } from 'lucide-react';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('traits');
+  const validTabs = ['traits', 'species', 'map', 'query', 'about'];
+  const [activeTab, setActiveTab] = useState(() => {
+    const hash = window.location.hash.replace('#', '');
+    if (validTabs.includes(hash)) return hash;
+    return 'traits';
+  });
+
+  const handleTabChange = (tabId) => {
+    setActiveTab(tabId);
+    window.location.hash = tabId;
+  };
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.replace('#', '');
+      if (validTabs.includes(hash)) {
+        setActiveTab(hash);
+      }
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
   
   // Read persisted theme preference or default to light mode if preferred
   const [isDark, setIsDark] = useState(() => {
@@ -88,7 +109,7 @@ export default function App() {
       {/* Navigation Header */}
       <Navbar
         activeTab={activeTab}
-        setActiveTab={setActiveTab}
+        setActiveTab={handleTabChange}
         metadata={metadata}
         isDark={isDark}
         setIsDark={setIsDark}
